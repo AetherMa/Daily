@@ -1,12 +1,10 @@
 import { motion } from 'framer-motion';
 import { Heart, Sparkles } from 'lucide-react';
 import useGreeting from '../hooks/useGreeting.js';
-import useAnniversaries from '../hooks/useAnniversaries.js';
 import StickyNote from './StickyNote.jsx';
 
-export default function HeroSection({ entriesCount = 0 }) {
+export default function HeroSection({ entriesCount = 0, nextMemory }) {
   const { greeting, note } = useGreeting();
-  const { next } = useAnniversaries();
 
   return (
     <section className="paper-card rounded-3xl p-6 md:p-8 shadow-soft relative overflow-hidden">
@@ -37,12 +35,12 @@ export default function HeroSection({ entriesCount = 0 }) {
         </div>
       </div>
 
-      {next && (
+      {nextMemory && (
         <div className="mt-6 max-w-md">
           <StickyNote
-            title={`下一次 · ${next.title}`}
-            subtitle={next.description}
-            footer={`还有 ${next.daysLeft} 天 · ${next.date}`}
+            title={`下一个纪念日 · ${nextMemory.title}`}
+            subtitle={nextMemory.note || nextMemory.description}
+            footer={`还有 ${nextMemory.daysLeft} 天 · ${nextMemory.date}`}
           />
         </div>
       )}

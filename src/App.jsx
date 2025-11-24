@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Heart } from 'lucide-react';
 import HeroSection from './components/HeroSection.jsx';
 import Calendar from './components/Calendar.jsx';
@@ -6,6 +6,7 @@ import EntryModal from './components/EntryModal.jsx';
 import MemoriesSidebar from './components/MemoriesSidebar.jsx';
 import Drawer from './components/Drawer.jsx';
 import useLocalStorage from './hooks/useLocalStorage.js';
+import useMemories from './hooks/useMemories.js';
 import { formatDate, shiftMonth } from './utils/dateUtils.js';
 
 export default function App() {
@@ -14,6 +15,11 @@ export default function App() {
   const [selectedDate, setSelectedDate] = useState(formatDate(new Date()));
   const [openModal, setOpenModal] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { memories, addMemory, updateMemory, deleteMemory, nextMemory } = useMemories();
+
+  useEffect(() => {
+    document.title = 'Daily · 给橙子大王';
+  }, []);
 
   const activeEntry = useMemo(
     () => entries.find((item) => item.date === selectedDate),
@@ -47,7 +53,7 @@ export default function App() {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-dusk/70">Daily · Cozy Diary</p>
-            <h1 className="text-2xl font-semibold">暖暖的情侣日记</h1>
+            <h1 className="text-2xl font-semibold">给橙子大王</h1>
           </div>
           <button
             type="button"
@@ -55,11 +61,11 @@ export default function App() {
             className="lg:hidden inline-flex items-center gap-2 rounded-2xl bg-sand px-3 py-2 shadow-soft"
           >
             <Heart className="w-4 h-4" />
-            纪念日
+            回忆清单
           </button>
         </div>
 
-        <HeroSection entriesCount={entries.length} />
+        <HeroSection entriesCount={entries.length} nextMemory={nextMemory} />
 
         <div className="flex flex-col lg:flex-row gap-6">
           <div className="flex-1">
@@ -71,13 +77,23 @@ export default function App() {
             />
           </div>
           <div className="hidden lg:block w-full max-w-xs">
-            <MemoriesSidebar />
+            <MemoriesSidebar
+              memories={memories}
+              onAdd={addMemory}
+              onUpdate={updateMemory}
+              onDelete={deleteMemory}
+            />
           </div>
         </div>
       </div>
 
-      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} title="纪念日">
-        <MemoriesSidebar />
+      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)} title="回忆清单">
+        <MemoriesSidebar
+          memories={memories}
+          onAdd={addMemory}
+          onUpdate={updateMemory}
+          onDelete={deleteMemory}
+        />
       </Drawer>
 
       <EntryModal

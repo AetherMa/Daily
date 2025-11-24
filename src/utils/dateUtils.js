@@ -5,6 +5,14 @@ export const formatDate = (date) => {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 };
 
+export const getMonthDayParts = (value) => {
+  if (!value) return null;
+  const segments = value.split('-').map((part) => Number(part));
+  const [month, day] = segments.slice(-2);
+  if (!month || !day || Number.isNaN(month) || Number.isNaN(day)) return null;
+  return { month, day };
+};
+
 export const parseDate = (value) => {
   const [year, month, day] = value.split('-').map(Number);
   return new Date(year, month - 1, day);
@@ -12,7 +20,7 @@ export const parseDate = (value) => {
 
 export const getMonthLabel = (current) => {
   const date = new Date(current);
-  return `${date.getFullYear()}年 ${pad(date.getMonth() + 1)}月`;
+  return `${date.getFullYear()}年${pad(date.getMonth() + 1)}月`;
 };
 
 export const getMonthMatrix = (current) => {
@@ -75,7 +83,9 @@ export const getNextAnniversary = (anniversaries, now = new Date()) => {
   const currentYear = now.getFullYear();
   const upcoming = anniversaries
     .map((item) => {
-      const [month, day] = item.date.split('-').map(Number);
+      const parts = getMonthDayParts(item.date);
+      if (!parts) return null;
+      const { month, day } = parts;
       let target = new Date(currentYear, month - 1, day);
       if (target < now) {
         target = new Date(currentYear + 1, month - 1, day);
@@ -83,6 +93,7 @@ export const getNextAnniversary = (anniversaries, now = new Date()) => {
       const diff = Math.ceil((target - now) / (1000 * 60 * 60 * 24));
       return { ...item, targetDate: target, daysLeft: diff };
     })
+    .filter(Boolean)
     .sort((a, b) => a.targetDate - b.targetDate);
 
   return upcoming[0];

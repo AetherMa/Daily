@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand:wght@400&family=Caveat:wght@400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #4a3b35;
+  background-color: #fdfbf7;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #fdfbf7;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(242, 201, 193, 0.3) 0, rgba(242, 201, 193, 0) 35%),
+    radial-gradient(circle at 80% 10%, rgba(201, 220, 203, 0.32) 0, rgba(201, 220, 203, 0) 35%),
+    linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 14px 14px, 14px 14px;
+  background-position: 0 0, 0 0, 0 0, 0 0;
+  color: #4a3b35;
+  font-family: 'Patrick Hand', 'Caveat', system-ui, -apple-system, sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.paper-card {
+  background: linear-gradient(180deg, #fffaf3 0%, #f8efe3 100%);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.tape {
+  position: absolute;
+  top: -12px;
+  left: 16%;
+  width: 80px;
+  height: 24px;
+  background: rgba(245, 233, 218, 0.82);
+  border-radius: 8px;
+  transform: rotate(-4deg);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.polaroid {
+  background: #fff;
+  padding: 12px 12px 22px 12px;
+  border-radius: 18px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.14);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.modal-backdrop {
+  background: radial-gradient(circle at 30% 30%, rgba(242, 201, 193, 0.25), transparent 35%),
+    radial-gradient(circle at 70% 70%, rgba(201, 220, 203, 0.25), transparent 35%),
+    rgba(74, 59, 53, 0.55);
+  backdrop-filter: blur(10px);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(74, 59, 53, 0.3);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.02);
+}
